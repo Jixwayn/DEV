@@ -45,7 +45,7 @@ pipeline {
                 sh '''
                     ls -la
                     node --version
-                    npm install netify-cli
+                    npm install netlify-cli
                 '''
             }
         }
