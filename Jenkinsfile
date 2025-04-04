@@ -8,14 +8,17 @@ pipeline {
     }
 
     stages {
+        stages {
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:18'
+                    reuseNode true
+                }
+            }
             steps {
-                echo 'Building without Docker'
+                echo '🛠️ Building in Docker...'
                 sh '''
-                    echo "🛠️ Building..."
-                    echo "PATH=$PATH"
-                    which node  # ตรวจสอบว่า Node.js ติดตั้งใน path ไหน
-                    which npm   # ตรวจสอบว่า npm ติดตั้งใน path ไหน
                     node --version
                     npm --version
                     npm ci
@@ -56,12 +59,13 @@ pipeline {
                 '''
             }
         }
-    }
+        }
 
     post {
         always {
             echo 'No test result to archive yet.'
-            // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
+        // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
         }
+    }
     }
 }
