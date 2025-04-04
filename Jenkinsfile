@@ -10,10 +10,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building without Docker'
-            }
-        }
-    }
-            steps {
                 sh '''
                     echo "🛠️ Building..."
                     node --version
@@ -23,7 +19,7 @@ pipeline {
                     ls -la build
                 '''
             }
-}
+        }
 
         stage('Test') {
             agent {
@@ -56,10 +52,12 @@ pipeline {
                 '''
             }
         }
+    }
 
     post {
-    always {
-        echo 'No test result to archive yet.'
-    // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
+        always {
+            echo 'No test result to archive yet.'
+            // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
+        }
     }
-    }
+}
