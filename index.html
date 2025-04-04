@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Random Quote (Node.js API)</title>
-</head>
-<body>
-  <h1>📜 คำคมจาก Node.js API</h1>
-  <button onclick="getQuote()">สุ่มคำคม</button>
-  <p id="quote">คลิกปุ่มด้านบนเพื่อรับคำคม</p>
 
-  <script>
-    async function getQuote() {
-      const res = await fetch('/api/quote');
-      const data = await res.json();
-      document.getElementById('quote').innerText = data.quote;
-    }
-  </script>
+<head>
+    <meta charset="UTF-8" />
+    <title>Random Quote (Node.js API)</title>
+</head>
+
+<body>
+    <h1>📜 คำคมจาก Node.js API</h1>
+    <button onclick="getQuote()">สุ่มคำคม</button>
+    <p id="quote">คลิกปุ่มด้านบนเพื่อรับคำคม</p>
+
+    <script>
+        async function getQuote() {
+            const res = await fetch('/api/quote');
+            const data = await res.json();
+            document.getElementById('quote').innerText = data.quote;
+        }
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import App from './App';
+        import reportWebVitals from './reportWebVitals';
+
+        // สร้าง root และ render คอมโพเนนต์ของคุณ
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        );
+
+        // เรียกใช้งานฟังก์ชัน reportWebVitals เพื่อบันทึกข้อมูลการวัด
+        reportWebVitals();
+
+    </script>
 </body>
+
 </html>
