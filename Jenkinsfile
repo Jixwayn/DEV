@@ -13,14 +13,14 @@ pipeline {
                 echo 'Building without Docker'
                 sh '''
                     echo "🛠️ Building..."
-                    echo "Node path: $(which node)"
-                    echo "NPM path: $(which npm)"
-                    node --version  # ตรวจสอบเวอร์ชันของ Node.js
-                    npm --version   # ตรวจสอบเวอร์ชันของ npm
-                    set -x
-                    npm ci          # ติดตั้ง dependencies
-                    npm run build   # รันคำสั่ง build
-                    ls -la build    # แสดงไฟล์ในโฟลเดอร์ build
+                    echo "PATH=$PATH"
+                    which node  # ตรวจสอบว่า Node.js ติดตั้งใน path ไหน
+                    which npm   # ตรวจสอบว่า npm ติดตั้งใน path ไหน
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la build
                 '''
             }
         }
