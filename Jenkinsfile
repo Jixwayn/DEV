@@ -12,7 +12,7 @@ pipeline {
                 echo 'Building without Docker'
                 sh '''
                     echo "🛠️ Building..."
-                    node --version
+                    node --version || (echo "Node.js not found, installing..." && curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs)
                     npm --version
                     npm ci
                     npm run build
