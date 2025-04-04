@@ -4,11 +4,9 @@ pipeline {
     environment {
         NETLIFY_AUTH_TOKEN = credentials('NETLIFY_AUTH_TOKEN')
         NETLIFY_SITE_ID = credentials('NETLIFY_SITE_ID')
-        PATH = "/usr/local/bin:${env.PATH}"  // กำหนด path สำหรับ Node.js ที่ถูกต้อง
     }
 
     stages {
-        stages {
         stage('Build') {
             agent {
                 docker {
@@ -31,15 +29,15 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'node:18-alpine'  // ใช้ Docker image ที่มี Node.js
+                    image 'node:18'
                     reuseNode true
                 }
             }
             steps {
-                echo "🧪 Running tests..."
+                echo '🧪 Running tests...'
                 sh '''
-                    test -f build/index.html  # ตรวจสอบไฟล์ที่สร้างขึ้นใน build
-                    npm test || echo "No test script, skipping..."  # รันคำสั่ง test หรือข้ามถ้าไม่มี script
+                    test -f build/index.html
+                    npm test || echo "No test script, skipping..."
                 '''
             }
         }
@@ -47,25 +45,23 @@ pipeline {
         stage('Deploy to Netlify') {
             agent {
                 docker {
-                    image 'node:18-alpine'  // ใช้ Docker image ที่มี Node.js
+                    image 'node:18'
                     reuseNode true
                 }
             }
             steps {
-                echo "🚀 Deploying to Netlify..."
+                echo '🚀 Deploying to Netlify...'
                 sh '''
-                    npm install -g netlify-cli  # ติดตั้ง Netlify CLI
+                    npm install -g netlify-cli
                     netlify deploy --dir=build --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID --prod
                 '''
             }
         }
-        }
+    }
 
     post {
         always {
-            echo 'No test result to archive yet.'
-        // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
+            echo '📦 Post steps: no test results to archive yet.'
         }
-    }
     }
 }
