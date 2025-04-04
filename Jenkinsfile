@@ -4,7 +4,7 @@ pipeline {
     environment {
         NETLIFY_AUTH_TOKEN = credentials('NETLIFY_AUTH_TOKEN')
         NETLIFY_SITE_ID = credentials('NETLIFY_SITE_ID')
-        PATH = "/usr/local/bin/nodejs:${env.PATH}"  // กำหนด path สำหรับ Node.js
+        PATH = "/usr/local/bin:${env.PATH}"  // กำหนด path สำหรับ Node.js ที่ถูกต้อง
     }
 
     stages {
@@ -13,11 +13,11 @@ pipeline {
                 echo 'Building without Docker'
                 sh '''
                     echo "🛠️ Building..."
-                    node --version
-                    npm --version
-                    npm ci
-                    npm run build
-                    ls -la build
+                    node --version  # ตรวจสอบเวอร์ชันของ Node.js
+                    npm --version   # ตรวจสอบเวอร์ชันของ npm
+                    npm ci          # ติดตั้ง dependencies
+                    npm run build   # รันคำสั่ง build
+                    ls -la build    # แสดงไฟล์ในโฟลเดอร์ build
                 '''
             }
         }
@@ -25,15 +25,15 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:18-alpine'  // ใช้ Docker image ที่มี Node.js
                     reuseNode true
                 }
             }
             steps {
+                echo "🧪 Running tests..."
                 sh '''
-                    echo "🧪 Running tests..."
-                    test -f build/index.html
-                    npm test || echo "No test script, skipping..."
+                    test -f build/index.html  # ตรวจสอบไฟล์ที่สร้างขึ้นใน build
+                    npm test || echo "No test script, skipping..."  # รันคำสั่ง test หรือข้ามถ้าไม่มี script
                 '''
             }
         }
@@ -41,14 +41,14 @@ pipeline {
         stage('Deploy to Netlify') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:18-alpine'  // ใช้ Docker image ที่มี Node.js
                     reuseNode true
                 }
             }
             steps {
+                echo "🚀 Deploying to Netlify..."
                 sh '''
-                    echo "🚀 Deploying to Netlify..."
-                    npm install -g netlify-cli
+                    npm install -g netlify-cli  # ติดตั้ง Netlify CLI
                     netlify deploy --dir=build --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID --prod
                 '''
             }
