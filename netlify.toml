@@ -3,6 +3,6 @@
   publish = "."
 
 [[redirects]]
-  from = "/api/hello"
-  to = "/.netlify/functions/hello"
+  from = "/api/quote"
+  to = "/.netlify/functions/quote"
   status = 200

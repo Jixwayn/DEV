@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Node.js on Netlify</title>
+  <title>Random Quote (Node.js API)</title>
 </head>
 <body>
-  <h1>Test Function</h1>
-  <button onclick="callFunction()">Call API</button>
-  <pre id="result"></pre>
+  <h1>📜 คำคมจาก Node.js API</h1>
+  <button onclick="getQuote()">สุ่มคำคม</button>
+  <p id="quote">คลิกปุ่มด้านบนเพื่อรับคำคม</p>
 
   <script>
-    async function callFunction() {
-      const res = await fetch('/api/hello');
+    async function getQuote() {
+      const res = await fetch('/api/quote');
       const data = await res.json();
-      document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+      document.getElementById('quote').innerText = data.quote;
     }
   </script>
 </body>
