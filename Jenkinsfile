@@ -4,6 +4,7 @@ pipeline {
     environment {
         NETLIFY_AUTH_TOKEN = credentials('NETLIFY_AUTH_TOKEN')
         NETLIFY_SITE_ID = credentials('NETLIFY_SITE_ID')
+        PATH = "/usr/local/bin/nodejs:${env.PATH}"  // กำหนด path สำหรับ Node.js
     }
 
     stages {
