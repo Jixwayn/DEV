@@ -23,7 +23,7 @@ pipeline {
                     ls -la build
                 '''
             }
-        }
+}
 
         stage('Test') {
             agent {
@@ -56,13 +56,10 @@ pipeline {
                 '''
             }
         }
-    }
 
     post {
     always {
         echo 'No test result to archive yet.'
-        // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
+    // junit 'reports/**/*.xml' // ยังไม่มีไฟล์ทดสอบ
     }
-}
-
-}
+    }
