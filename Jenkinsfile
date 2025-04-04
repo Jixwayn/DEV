@@ -17,6 +17,7 @@ pipeline {
                     echo "NPM path: $(which npm)"
                     node --version  # ตรวจสอบเวอร์ชันของ Node.js
                     npm --version   # ตรวจสอบเวอร์ชันของ npm
+                    set -x
                     npm ci          # ติดตั้ง dependencies
                     npm run build   # รันคำสั่ง build
                     ls -la build    # แสดงไฟล์ในโฟลเดอร์ build
